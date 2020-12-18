@@ -2,7 +2,6 @@ import pytest
 import numpy as np
 from core.ASCII_Character import ASCII_Character
 
-
 '''
 Test Strategy:
     get_character(): partition on all ASCII character ordinals from 32 to 126 inclusive
@@ -11,50 +10,48 @@ Test Strategy:
 '''
 
 '''
-    Helper method to test the characters
+    Method to test the get_character
     param:  char                the ASCII_Character to test
             expect_char         the expected character that char represents
-            expect_array        the expected pixel array that char returns
-            expect_intensity    the expected intensity (ratio of black vs total pixels) needed
 '''
-def test_helper(char, expect_char, expect_array, expect_intensity):
-    assert char.get_character() == expect_char
-    assert np.array_equal(expect_array, char.get_character_pixel_array())
-    assert char.get_intensity() - expect_intensity < 1e-5 
-
-def test_assertion_true():
-    assert True
+@pytest.mark.parametrize(
+    "char,expected_char",
+    [(ASCII_Character(' '), ' '), (ASCII_Character('8'), '8')],
+)
+def test_ascii_get_character(char, expected_char):
+    assert char.get_character() == expected_char
 
 '''
-    covers get_character(): [SPACE] (ord = 32)
-           get_character_pixel_array(): 0 black pixels
-           get_intensity(): output = 0
+    Method to test get_character_pixel_array()
+    param:  char            the ASCII Character
+            expected_arr    the expected output of the array 
 '''
-def test_space_character():
-    space_char = ASCII_Character(' ')
-    array_output = np.ones((11, 6))
-    intensity_output = 0.0
-
-    test_helper(space_char, ' ', array_output, intensity_output)
+@pytest.mark.parametrize(
+    "char,expected_arr",
+    [(ASCII_Character(' '), np.ones((11, 6))), 
+    (ASCII_Character('8'), np.array([[1, 1, 1, 1, 1, 1],
+                                    [1, 1, 1, 1, 1, 1],
+                                    [1, 0, 0, 0, 1, 1],
+                                    [0, 0, 1, 0, 0, 1],
+                                    [0, 0, 1, 0, 0, 1],             
+                                    [1, 0, 0, 0, 1, 1],
+                                    [0, 0, 1, 0, 0, 1],
+                                    [0, 0, 1, 0, 0, 1],
+                                    [1, 0, 0, 0, 1, 1],
+                                    [1, 1, 1, 1, 1, 1],
+                                    [1, 1, 1, 1, 1, 1]]))],
+)
+def test_ascii_get_array(char, expected_arr):
+    assert np.array_equal(expected_arr, char.get_character_pixel_array())
 
 '''
-    covers  get_character(): 8 
-            get_character_pixel_array(): >0 black pixels
-            get_intensity(): > 0
+    Method to test get_intensity
+    param:  char                the ASCII Character
+            expected_intensity  the expected intensity 
 '''
-def test_character_8():
-    char8 = ASCII_Character('8')
-    array = np.array([[1, 1, 1, 1, 1, 1],
-                    [1, 1, 1, 1, 1, 1],
-                    [1, 0, 0, 0, 1, 1],
-                    [0, 0, 1, 0, 0, 1],
-                    [0, 0, 1, 0, 0, 1],             
-                    [1, 0, 0, 0, 1, 1],
-                    [0, 0, 1, 0, 0, 1],
-                    [0, 0, 1, 0, 0, 1],
-                    [1, 0, 0, 0, 1, 1],
-                    [1, 1, 1, 1, 1, 1],
-                    [1, 1, 1, 1, 1, 1]])
-    intensity = 25/66
-
-    test_helper(char8, '8', array, intensity)
+@pytest.mark.parametrize(
+    "char,expected_intensity",
+    [(ASCII_Character(' '), 0), (ASCII_Character('8'), 25/66)],
+)
+def test_ascii_get_intensity(char, expected_intensity):
+    assert char.get_intensity() - expected_intensity < 1e-5 
