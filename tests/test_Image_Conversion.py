@@ -9,7 +9,7 @@ def test_rgb_to_greyscale_1_1_3():
     arr = Image_Conversion.rgb_to_greyscale(np.random.randint(256, size = 3).reshape((1,1,3))/255)
     assert arr.shape[0] == 1
     assert arr.shape[1] == 1
-    assert 255 not in np.where(0 <= arr <= 1, arr, 255)
+    assert np.any((arr <= 1) & (arr >= 0))
 
 '''
     Checks to see if rgb_to_greyscale works for 10x10x3 image
@@ -18,7 +18,7 @@ def test_rgb_to_greyscale_10_10_3():
     array = Image_Conversion.rgb_to_greyscale(np.random.randint(256, size = 300).reshape((10,10,3))/255)
     assert array.shape[0] == 10
     assert array.shape[1] == 10
-    assert 255 not in np.where(0 <= array <= 1, array, 255)
+    assert np.any((array >= 0) & (array <= 1))
 
 '''
     Checks to see if greyscale_to_ascii works for 11x6 image

@@ -9,7 +9,7 @@ class Image_Conversion:
     return: an 2d array of the same size as the first two dimensions in img_array
     '''
     def rgb_to_greyscale(img_array):
-        return None
+        return 0.299*img_array[:, :, 0]+0.587 * img_array[:, :, 1]+0.114*img_array[:,:,2]
 
     '''
     Return the img_array using ASCII_Art
