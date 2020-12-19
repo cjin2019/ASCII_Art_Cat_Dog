@@ -1,4 +1,5 @@
 import numpy as np
+from core.ASCII_Character import ASCII_Character
 
 class Image_Conversion:
 
@@ -19,7 +20,23 @@ class Image_Conversion:
     return: an 2d array uses ASCII Art 
     '''
     def greyscale_to_ascii(img_array):
-        return None
+        intensity_to_ascii = Image_Conversion.get_intensity_to_ascii()
+        # scale
+        row_scale = 6
+        col_scale = 3
+
+        nrows = 11 * img_array.shape[0]//row_scale
+        ncols = 6 * img_array.shape[1]//col_scale
+
+        new_array = np.zeros((nrows, ncols))
+
+        for r in range(0, img_array.shape[0], row_scale):
+            for c in range(0, img_array.shape[1], col_scale):
+                intensity = Image_Conversion.get_closest_ascii_intensity(intensity_to_ascii.keys(), 
+                                                        np.mean(img_array[r:r+row_scale,c:c+col_scale]))
+                new_array[r:r+11,c:c+6] = intensity_to_ascii[intensity].get_character_pixel_array()
+
+        return new_array
 
     '''
     Return the img_array after applying conversion_list
@@ -35,3 +52,28 @@ class Image_Conversion:
         for conversion in conversion_list:
             output = conversion(output)
         return output
+
+    # Helper Method
+    # get a intensity to ASCII_Character
+    def get_intensity_to_ascii():
+        intensity_to_ascii = {}
+
+        for i in range(32, 127):
+            ascii_char = ASCII_Character(chr(i))
+            intensity_to_ascii[ascii_char.get_intensity()] = ascii_char
+
+        return intensity_to_ascii
+
+    # get the closest intensity given current_intensity
+    def get_closest_ascii_intensity(ascii_intensities, current_intensity):
+        min_intensity = -1
+        min_diff = 100
+
+
+        for intensity in ascii_intensities:
+            #print(current_intensity, intensity)
+            if(abs(current_intensity - intensity) < min_diff):
+                min_diff = abs(current_intensity - intensity)
+                min_intensity = intensity
+
+        return min_intensity
