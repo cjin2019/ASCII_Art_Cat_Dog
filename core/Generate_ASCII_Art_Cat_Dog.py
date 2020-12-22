@@ -44,7 +44,6 @@ def read_images_from_zip_to_array(filename, invalid_filenames = []):
 
 				if counter % 1000 == 0:
 					print("Saved", counter, "images")
-					print(len(img_list))
 					pickle.dump(img_list, open("img_ascii_array.p", "wb"))
 
 	return img_list
