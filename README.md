@@ -11,4 +11,4 @@ This repo contains code part of my research for Methods for Protecting Image Cla
 
 ## Current Progress
 1. Cleaned up code for better image to ascii art conversion (12/22/2020)
-The following images show this conversion
+You can see the ascii art image and the original image in the png files in the core folder.
