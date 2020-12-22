@@ -1,5 +1,6 @@
 import numpy as np
 from core.ASCII_Character import ASCII_Character
+from PIL import Image
 
 class Image_Conversion:
 
@@ -17,24 +18,35 @@ class Image_Conversion:
     param:  img_array   an array of 2 dimensions where the first two dimensions are the
                         the size of the image. img_array must have a size of at least (11,6)
                         (number of rows, number of cols)
+            row_scale (default = 2): the number of rows to match the region
+            col_scale (default = 1): the number of columns to match the region
     return: an 2d array uses ASCII Art 
     '''
-    def greyscale_to_ascii(img_array):
+    def greyscale_to_ascii(img_array, row_scale = 2, col_scale = 1):
         intensity_to_ascii = Image_Conversion.get_intensity_to_ascii()
-        # scale
-        row_scale = 6
-        col_scale = 3
 
-        nrows = 11 * img_array.shape[0]//row_scale
-        ncols = 6 * img_array.shape[1]//col_scale
+        ASCII_ROWS = 11
+        ASCII_COLS = 6
+
+        nrows = ASCII_ROWS * img_array.shape[0]//row_scale
+        ncols = ASCII_COLS * img_array.shape[1]//col_scale
 
         new_array = np.zeros((nrows, ncols))
 
+        new_row = 0
+        new_col = 0
         for r in range(0, img_array.shape[0], row_scale):
             for c in range(0, img_array.shape[1], col_scale):
+                if(new_col + ASCII_COLS > ncols):
+                    new_col = 0
+                    new_row += ASCII_ROWS
+                if(new_row + ASCII_ROWS > nrows):
+                    break
+
                 intensity = Image_Conversion.get_closest_ascii_intensity(intensity_to_ascii.keys(), 
                                                         np.mean(img_array[r:r+row_scale,c:c+col_scale]))
-                new_array[r:r+11,c:c+6] = intensity_to_ascii[intensity].get_character_pixel_array()
+                new_array[new_row:new_row+ASCII_ROWS,new_col:new_col+ASCII_COLS] = intensity_to_ascii[intensity].get_character_pixel_array()
+                new_col += ASCII_COLS
 
         return new_array
 
