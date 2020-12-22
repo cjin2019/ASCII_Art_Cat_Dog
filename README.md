@@ -1,5 +1,7 @@
 # ASCII_Art_Cat_Dog
-This repo contains code part of my research for Methods for Protecting Image Classifiers from Adversarial Attacks. The core folder contains files for creating ascii art and will contain files to generate the model and adversarial attack methods. The test folder contains files to test the objects and functions.
+This repo contains code part of my research for Methods for Protecting Image Classifiers from Adversarial Attacks. 
+I am creating this repo to clean up my implementation for my research project following the skills I gained from my software construction class. 
+The core folder contains files for creating ascii art and will contain files to generate the model and adversarial attack methods. The test folder contains files to test the objects and functions.
 
 ## Packages Used:
 1. PIL 
