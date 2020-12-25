@@ -14,3 +14,5 @@ The core folder contains files for creating ascii art and will contain files to 
 ## Current Progress
 1. Cleaned up code for better image to ascii art conversion (12/22/2020)
 You can see the ascii art image and the original image in the png files in the core folder.
+
+2. Finished generating all the ASCII_Art_Images for cats and dogs ~25000 images
